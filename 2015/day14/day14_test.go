@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 	comet := reindeer_t{speed: 14, fly_dur: 10, rest_dur: 127}
 	// dancer := reindeer_t{speed: 16, fly_dur: 11, rest_dur: 162}
 

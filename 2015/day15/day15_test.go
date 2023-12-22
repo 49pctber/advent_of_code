@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 
 	test_fname := `input\input15_test.txt`
 

@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 	if have, want := PressButton(`input\input20_test.txt`, 1000), 32000000; have != want {
 		t.Errorf("have %v, want %v", have, want)
 	}

@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 	instructions := ParseDay18Input(`input\input18_test1.txt`, true)
 	if have, want := computeVolume(instructions), 62; have != want {
 		t.Errorf("Returned %d, not %d", have, want)

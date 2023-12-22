@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 	wfs, mps, err := ParseDay19Input(`input\input19_test.txt`)
 	if err != nil {
 		t.Fatal(err)

@@ -4,7 +4,7 @@ package main
 // 	"testing"
 // )
 
-// func Testmaint *testing.T) {
+// func TestMain(t *testing.T) {
 // 	search := ParseDay21Input(`input\input21_test1.txt`, 6)
 // 	// fmt.Printf("%v\n", search)
 

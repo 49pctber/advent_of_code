@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Testmaint *testing.T) {
+func TestMain(t *testing.T) {
 	bricks := ParseDay22Input(`input\input22_test.txt`)
 	// fmt.Printf("bricks: %v\n", bricks)
 	// n_falling_bricks := bricks.Fall()
