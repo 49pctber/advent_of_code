@@ -7,4 +7,4 @@ This contains my solutions for the Advent of Code events.
 |Year|⭐|
 |---|---|
 |2015|34|
-|2023|44|
+|2023|46|
