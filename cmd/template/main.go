@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	_ "embed"
+)
 
 func Part1() {
 	fmt.Printf("Part 1: %v\n", "?")
