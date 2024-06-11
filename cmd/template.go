@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-//go:embed template template/.*
+//go:embed template
 var template embed.FS
 
 func main() {
