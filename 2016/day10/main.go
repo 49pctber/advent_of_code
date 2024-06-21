@@ -20,6 +20,17 @@ type Bot struct {
 	passhigh BotId_t
 }
 
+var low_chip_value, high_chip_value int
+
+func SetSearchParamters(lc, hc int) {
+	low_chip_value = lc
+	high_chip_value = hc
+}
+
+func (bot Bot) String() string {
+	return fmt.Sprintf("Bot %d has chips %v and will pass low to %d and high to %d", bot.id, bot.chips, bot.passlow, bot.passhigh)
+}
+
 func GiveChip(bots []*Bot, to BotId_t, chip MicrochipId_t) {
 	bot := bots[to]
 	bot.chips = append(bot.chips, chip)
@@ -29,17 +40,28 @@ func GiveChip(bots []*Bot, to BotId_t, chip MicrochipId_t) {
 		lc := slices.Min(bot.chips)
 		hc := slices.Max(bot.chips)
 		bot.chips = make([]MicrochipId_t, 0)
+
+		if lc == -1 || hc == -1 {
+			fmt.Println(bot)
+			panic("uninitialized values")
+		}
+
+		if lc == MicrochipId_t(low_chip_value) && hc == MicrochipId_t(high_chip_value) {
+			fmt.Printf("Bot %d\n", bot.id)
+		}
+
 		GiveChip(bots, bot.passlow, lc)
 		GiveChip(bots, bot.passhigh, hc)
 	}
 }
 
-func GetBot(input string) int {
+func GetBot(input string) {
 
+	var output_offset OutputId_t = 210
 	nbots := 256
 	bots := make([]*Bot, nbots)
 	for i := 0; i < nbots; i++ {
-		bots[i] = &Bot{id: BotId_t(i), chips: make([]MicrochipId_t, 0)}
+		bots[i] = &Bot{id: BotId_t(i), chips: make([]MicrochipId_t, 0), passlow: -1, passhigh: -1}
 	}
 
 	instructions := strings.Split(input, "\n")
@@ -52,37 +74,49 @@ func GetBot(input string) int {
 	var output1, output2 OutputId_t
 	var v1, v2 string
 
-	// TODO load all passing rules first, then give chips.
-
+	// load all passing rules first
 	for _, i := range instructions {
-		i = strings.TrimSpace(i)
+		if n, err := fmt.Sscanf(i, "bot %d gives %s to bot %d and %s to bot %d", &bot, &v1, &bot1, &v2, &bot2); n == 5 && err == nil {
+			b := bots[bot]
+			if v1 == "high" {
+				b.passhigh = bot1
+				b.passlow = bot2
+			} else {
+				b.passhigh = bot2
+				b.passlow = bot1
+			}
+		} else if n, err := fmt.Sscanf(i, "bot %d gives %s to output %d and %s to bot %d", &bot, &v1, &output1, &v2, &bot2); n == 5 && err == nil {
+			b := bots[bot]
+			if v2 == "high" {
+				b.passhigh = bot2
+				b.passlow = BotId_t(output1 + output_offset)
+			} else {
+				b.passlow = bot2
+				b.passhigh = BotId_t(output1 + output_offset)
+			}
+		} else if n, err := fmt.Sscanf(i, "bot %d gives %s to output %d and %s to output %d", &bot, &v1, &output1, &v2, &output2); n == 5 && err == nil {
+			b := bots[bot]
+			if v1 == "high" {
+				b.passhigh = BotId_t(output1 + output_offset)
+				b.passlow = BotId_t(output2 + output_offset)
+			} else {
+				b.passlow = BotId_t(output1 + output_offset)
+				b.passhigh = BotId_t(output2 + output_offset)
+			}
+		}
+	}
+
+	// give chips
+	for _, i := range instructions {
 		if n, err := fmt.Sscanf(i, "value %d goes to bot %d", &val, &bot); n == 2 && err == nil {
 			GiveChip(bots, bot, val)
-		} else if n, err := fmt.Sscanf(i, "bot %d gives %s to bot %d and %s to bot %d", &bot, &v1, &bot1, &v2, &bot2); n == 5 && err == nil {
-			//
-		} else if n, err := fmt.Sscanf(i, "bot %d gives %s to output %d and %s to bot %d", &bot, &v1, &output1, &v2, &bot2); n == 5 && err == nil {
-			//
-		} else if n, err := fmt.Sscanf(i, "bot %d gives %s to output %d and %s to output %d", &bot, &v1, &output1, &v2, &output2); n == 5 && err == nil {
-			//
-		} else {
-			panic(fmt.Sprintf("error processing instruction: %s", i))
 		}
 	}
 
-	for _, bot := range bots {
-		if len(bot.chips) > 0 {
-			fmt.Println(*bot)
-		}
-	}
-	return 0
-}
+	product := bots[output_offset+0].chips[0] * bots[output_offset+1].chips[0] * bots[output_offset+2].chips[0]
 
-func Part1() {
-	fmt.Printf("Part 1: %v\n", "?")
-}
+	fmt.Printf("Part 2: %d\n", product)
 
-func Part2() {
-	fmt.Printf("Part 2: %v\n", "?")
 }
 
 func InputString(fname string) string {
@@ -94,6 +128,7 @@ func InputString(fname string) string {
 }
 
 func main() {
-	Part1()
-	Part2()
+	SetSearchParamters(17, 61)
+	fmt.Printf("Part 1: ")
+	GetBot(InputString(`input.txt`))
 }
