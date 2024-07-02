@@ -1,4 +1,4 @@
-use std::cmp::min;
+use std::{cmp::min, collections::HashMap};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -29,7 +29,52 @@ fn distance(input: &i32) -> i32 {
 }
 
 fn next_largest_allocation(input: &i32) -> i32 {
-    return *input;
+    let mut c2v: HashMap<String, i32> = std::collections::HashMap::new();
+
+    let (mut x, mut y) = (0, 0); // coordinates
+    let mut v = 1; // the value at a given coordinate
+    let mut dir = 0; // incrementing rotates 90 degrees counter-clockwise
+    let mut steps_remaining_in_dir = 1;
+
+    // initial conditions
+    let c: String = format!("{}.{}", x, y).to_string();
+    c2v.insert(c.clone(), 1);
+
+    // "allocate memory"
+    while v <= *input {
+        // step
+        match dir % 4 {
+            0 => x += 1,
+            1 => y += 1,
+            2 => x -= 1,
+            3 => y -= 1,
+            _ => return -1,
+        }
+        steps_remaining_in_dir -= 1;
+
+        // turn if necessary
+        if steps_remaining_in_dir == 0 {
+            dir += 1; // turn
+            steps_remaining_in_dir = (dir + 2) / 2;
+        }
+
+        // add new value to hashmap
+        v = 0;
+        for dx in -1..2 {
+            for dy in -1..2 {
+                if dx == 0 && dy == 0 {
+                    continue;
+                }
+                let c: String = format!("{}.{}", x + dx, y + dy).to_string();
+                if c2v.contains_key(&c) {
+                    v += c2v.get(&c).expect("coordinate not in hashmap");
+                }
+            }
+        }
+        c2v.insert(format!("{}.{}", x, y).to_string(), v);
+    }
+
+    return v;
 }
 
 #[cfg(test)]
@@ -143,5 +188,17 @@ mod tests {
     fn test_next_largest_allocation_300() {
         let input = 300;
         assert_eq!(next_largest_allocation(&input), 304);
+    }
+
+    #[test]
+    fn test_next_largest_allocation_6591() {
+        let input = 6591;
+        assert_eq!(next_largest_allocation(&input), 13486);
+    }
+
+    #[test]
+    fn test_next_largest_allocation_42452() {
+        let input = 42452;
+        assert_eq!(next_largest_allocation(&input), 45220);
     }
 }
