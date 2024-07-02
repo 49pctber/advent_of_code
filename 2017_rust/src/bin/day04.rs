@@ -1,9 +1,7 @@
 use std::collections::HashSet;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let fname: &String = args.get(1).expect("missing argument");
-    let input = std::fs::read_to_string(fname).expect("could not open file");
+    let input = aoc::string_from_file();
 
     let mut count1 = 0;
     let mut count2 = 0;
