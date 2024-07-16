@@ -11,7 +11,9 @@ int main(int argc, char **argv) {
         case 1:
             day1();
             break;
-
+        case 2:
+            day2();
+            break;
         default:
             std::cout << "Invalid day specified.\n";
             break;

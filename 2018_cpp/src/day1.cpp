@@ -52,13 +52,9 @@ int day1part2(std::filesystem::path path) {
 }
 
 void day1() {
-
     std::cout << "Day 1\n";
-
-    std::filesystem::path dir(INPUT_DIR);
-    std::filesystem::path file("1_1.txt");
-    std::filesystem::path path = dir / file;
-
+    std::filesystem::path input_dir(INPUT_DIR);
+    std::filesystem::path path = input_dir / "1.txt";
     std::cout << "Part 1: " << day1part1(path) << "\n";
     std::cout << "Part 2: " << day1part2(path) << "\n";
 }

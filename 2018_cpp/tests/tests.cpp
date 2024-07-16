@@ -20,3 +20,9 @@ TEST(ExampleTest, 1_2_2) { EXPECT_EQ(day1part2(dir / "1_2_2.txt"), 10); }
 TEST(ExampleTest, 1_2_3) { EXPECT_EQ(day1part2(dir / "1_2_3.txt"), 5); }
 
 TEST(ExampleTest, 1_2_4) { EXPECT_EQ(day1part2(dir / "1_2_4.txt"), 14); }
+
+TEST(ExampleTest, 2_1_0) { EXPECT_EQ(day2part1(dir / "2_1_0.txt"), 12); }
+
+TEST(ExampleTest, 2_2_0) {
+    EXPECT_EQ(day2part2(dir / "2_2_0.txt"), std::string("fgij"));
+}

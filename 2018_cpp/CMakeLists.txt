@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(INPUT_DIR "${CMAKE_SOURCE_DIR}/input")
-set(LIB_SOURCES src/day1.cpp)
+set(
+    LIB_SOURCES
+    src/day1.cpp
+    src/day2.cpp
+)
 
 add_library(${PROJECT_NAME}_lib STATIC ${LIB_SOURCES})
 target_include_directories(${PROJECT_NAME}_lib PUBLIC include)
