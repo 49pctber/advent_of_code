@@ -259,24 +259,24 @@ func main() {
 		load := platform.ComputeLoad()
 		ctl[i] = load
 		ltc[load] = append(ltc[load], i)
-		fmt.Printf("load: %v\n", load)
+
 		if len(ltc[load]) > 4 {
 			n := len(ltc[load])
-			d := ltc[load][n-1] - ltc[load][n-2]
+			d := ltc[load][n-2] - ltc[load][n-1]
 
-			if ltc[load][n-1]%d != 0 {
+			if ltc[load][n-3]-ltc[load][n-1] != 2*d {
 				continue
 			}
 
-			if ltc[load][n-1]-ltc[load][n-3] != 2*d {
+			if ltc[load][n-4]-ltc[load][n-1] != 3*d {
 				continue
 			}
 
-			if ltc[load][n-1]-ltc[load][n-4] != 3*d {
-				continue
+			for i := 0; i < ltc[load][n-1]%d; i++ {
+				platform.Cycle()
 			}
 
-			part2 = load
+			fmt.Printf("part2: %v\n", platform.ComputeLoad())
 			break
 		}
 	}
@@ -284,5 +284,5 @@ func main() {
 	p2end := time.Now()
 	p2dur := p2end.Sub(p2start)
 
-	fmt.Printf("part2: %v (%v)\n", part2, p2dur) // 90176
+	fmt.Printf("part2: %v (%v)\n", part2, p2dur)
 }
