@@ -4,3 +4,4 @@ input/
 input*
 output*
 target/
+build/
