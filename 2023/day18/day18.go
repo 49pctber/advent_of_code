@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -285,9 +286,9 @@ func computeVolume(instructions []instruction_t) int {
 func main() {
 	fmt.Println("Day 18")
 
-	part1 := computeVolume(ParseDay18Input(`input\input18.txt`, true))
+	part1 := computeVolume(ParseDay18Input(filepath.Join("input", "input18.txt"), true))
 	fmt.Printf("part1: %v\n", part1) // 62500
 
-	part2 := computeVolume(ParseDay18Input(`input\input18.txt`, false))
+	part2 := computeVolume(ParseDay18Input(filepath.Join("input", "input18.txt"), false))
 	fmt.Printf("part2: %v\n", part2) // 122109860712709
 }

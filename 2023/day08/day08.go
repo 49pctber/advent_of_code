@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 )
 
@@ -18,7 +19,7 @@ func main() {
 
 	var Map map[string]Node = make(map[string]Node)
 
-	file, err := os.Open(`input\input8.txt`)
+	file, err := os.Open(filepath.Join("input", "input8.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

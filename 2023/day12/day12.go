@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -214,7 +215,7 @@ func init() {
 func main() {
 	fmt.Println("Day 12")
 
-	file, err := os.Open(`input\input12.txt`)
+	file, err := os.Open(filepath.Join("input", "input12.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

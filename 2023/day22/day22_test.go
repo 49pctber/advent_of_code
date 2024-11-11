@@ -1,11 +1,12 @@
 package main
 
 import (
+	"path/filepath"
 	"testing"
 )
 
 func TestMain(t *testing.T) {
-	bricks := ParseDay22Input(`input\input22_test.txt`)
+	bricks := ParseDay22Input(filepath.Join("input", "input22.txt"))
 	// fmt.Printf("bricks: %v\n", bricks)
 	// n_falling_bricks := bricks.Fall()
 	// fmt.Printf("bricks: %v\n", bricks)

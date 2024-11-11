@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -58,7 +59,7 @@ func Postdict(row []int) int {
 func main() {
 	fmt.Println("Day 9")
 
-	file, err := os.Open(`input\input9.txt`)
+	file, err := os.Open(filepath.Join("input", "input9.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

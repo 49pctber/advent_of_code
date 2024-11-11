@@ -6,6 +6,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -205,7 +206,7 @@ func CountButtonPresses(s string, label string) int {
 
 func main() {
 
-	s := `input\input20.txt`
+	s := filepath.Join("input", "input20.txt")
 	part1 := PressButton(s, 1000)
 	fmt.Printf("part1: %v\n", part1) // 879834312
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -352,7 +353,7 @@ func Combinations(wfs map[string]workflow_t) int {
 }
 
 func main() {
-	wfs, mps, err := ParseDay19Input(`input\input19.txt`)
+	wfs, mps, err := ParseDay19Input(filepath.Join("input", "input19.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

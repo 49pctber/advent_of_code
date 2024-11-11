@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -222,7 +223,7 @@ func main() {
 
 	p1start := time.Now()
 
-	file, err := os.Open(`input\input14.txt`)
+	file, err := os.Open(filepath.Join("input", "input14.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -258,7 +259,7 @@ func main() {
 		load := platform.ComputeLoad()
 		ctl[i] = load
 		ltc[load] = append(ltc[load], i)
-
+		fmt.Printf("load: %v\n", load)
 		if len(ltc[load]) > 4 {
 			n := len(ltc[load])
 			d := ltc[load][n-1] - ltc[load][n-2]

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -42,7 +43,7 @@ func findLabel(s string, labels []label_t) (int, error) {
 func main() {
 	fmt.Println("Day 15")
 
-	file, err := os.Open(`input\input15.txt`)
+	file, err := os.Open(filepath.Join("input", "input15.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +87,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("hashmap: %v\n", hashmap)
+	// fmt.Printf("hashmap: %v\n", hashmap)
 
 	part2 := 0
 	for i, labels := range hashmap {
@@ -94,5 +95,5 @@ func main() {
 			part2 += (i + 1) * (j + 1) * label.focal_length
 		}
 	}
-	fmt.Printf("part2: %v\n", part2) // 74301 < ans
+	fmt.Printf("part2: %v\n", part2)
 }

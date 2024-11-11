@@ -1,11 +1,12 @@
 package main
 
 import (
+	"path/filepath"
 	"testing"
 )
 
 func TestMain(t *testing.T) {
-	wfs, mps, err := ParseDay19Input(`input\input19_test.txt`)
+	wfs, mps, err := ParseDay19Input(filepath.Join("input", "input19.txt"))
 	if err != nil {
 		t.Fatal(err)
 	}

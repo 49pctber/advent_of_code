@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -198,7 +199,7 @@ func ParseDay22Input(s string) bricks_t {
 }
 
 func main() {
-	bricks := ParseDay22Input(`input\input22.txt`)
+	bricks := ParseDay22Input(filepath.Join("input", "input22.txt"))
 	part1 := bricks.CountCandidateBricks()
 	fmt.Printf("part1: %v\n", part1) // 497
 	part2 := bricks.CountFallingBricks()

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type location struct {
@@ -95,7 +96,7 @@ func setBigGrid(l location, r rune) {
 func main() {
 	fmt.Println("Day 10")
 
-	file, err := os.Open(`input\input10.txt`)
+	file, err := os.Open(filepath.Join("input", "input10.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -8,7 +8,9 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -217,13 +219,13 @@ func main() {
 
 	show_best = true
 
-	// part1 := day17Search(0, 3, math.MaxInt, `input\input17.txt`)
-	// part1 := day17Search(0, 3, 1000, `input\input17.txt`)
-	// part1 := day17Search(0, 3, 797, `input\input17.txt`)
-	// fmt.Printf("part1: %v\n", part1) // 797
+	input := filepath.Join("input", "input17.txt")
 
-	// part2 := day17Search(4, 10, math.MaxInt, `input\input17.txt`)
-	part2 := day17Search(4, 10, 960, `input\input17.txt`)
-	fmt.Printf("part2: %v\n", part2) // 914
+	part1 := day17Search(0, 3, math.MaxInt, input)
+	// part1 := day17Search(0, 3, 797, input)
+	fmt.Printf("part1: %v\n", part1)
 
+	part2 := day17Search(4, 10, math.MaxInt, input)
+	// part2 := day17Search(4, 10, 960, input)
+	fmt.Printf("part2: %v\n", part2)
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type valley struct {
@@ -138,7 +139,7 @@ func (v *valley) Smudge() (int, error) {
 func main() {
 	fmt.Println("Day 13")
 
-	file, err := os.Open(`input\input13.txt`)
+	file, err := os.Open(filepath.Join("input", "input13.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

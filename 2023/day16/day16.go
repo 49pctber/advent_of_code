@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 const (
@@ -144,7 +145,7 @@ func (w *wall_t) PropagateBeams() {
 }
 
 func main() {
-	file, err := os.Open(`input\input16.txt`)
+	file, err := os.Open(filepath.Join("input", "input16.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

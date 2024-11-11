@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type Galaxy struct {
@@ -53,7 +54,7 @@ func init() {
 func main() {
 	fmt.Println("Day 11")
 
-	file, err := os.Open(`input\input11.txt`)
+	file, err := os.Open(filepath.Join("input", "input11.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

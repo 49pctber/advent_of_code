@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -196,7 +197,7 @@ func (h *Hands) ConvertJacks() {
 func main() {
 	fmt.Println("Day7")
 
-	file, err := os.Open(`input\input7.txt`)
+	file, err := os.Open(filepath.Join("input", "input7.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}

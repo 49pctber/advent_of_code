@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"slices"
 	"strconv"
@@ -75,7 +76,7 @@ func main() {
 	re := regexp.MustCompile(`Card (\d+): ((?:\d+ *)+) \| ((?: *\d+)+)`)
 	re_remove_space := regexp.MustCompile(` +`)
 
-	file, err := os.Open(`input\input4.txt`)
+	file, err := os.Open(filepath.Join("input", "input4.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}
