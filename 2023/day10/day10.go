@@ -29,12 +29,19 @@ func (l location) Down() location {
 	return location{x: l.x, y: l.y + 1}
 }
 
-var grid [140][140]rune
-var distance [140][140]int
+const n_rows int = 140
+const n_cols int = 140
 
-var big_grid [279][279]rune
+const n_big_rows int = 2*n_rows + 1
+const n_big_cols int = 2*n_cols + 1
+
+var grid [n_rows][n_cols]rune
+var distance [n_rows][n_cols]int
+
+var big_grid [n_big_rows][n_big_cols]rune
 
 func assignDistance(l location, d int) {
+
 	if distance[l.y][l.x] != -1 && d >= distance[l.y][l.x] {
 		return
 	}
@@ -64,11 +71,11 @@ func assignDistance(l location, d int) {
 }
 
 func markOutside(l location) {
-	if l.x < 0 || l.x >= 279 {
+	if l.x < 0 || l.x >= n_big_cols {
 		return
 	}
 
-	if l.y < 0 || l.y >= 279 {
+	if l.y < 0 || l.y >= n_big_rows {
 		return
 	}
 
@@ -82,11 +89,11 @@ func markOutside(l location) {
 }
 
 func setBigGrid(l location, r rune) {
-	if l.x < 0 || l.x >= 279 {
+	if l.x < 0 || l.x >= n_cols*2+1 {
 		return
 	}
 
-	if l.y < 0 || l.y >= 279 {
+	if l.y < 0 || l.y >= n_rows*2+1 {
 		return
 	}
 
@@ -104,8 +111,8 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	for row := 0; row < 140; row++ {
-		for col := 0; col < 140; col++ {
+	for row := 0; row < n_rows; row++ {
+		for col := 0; col < n_cols; col++ {
 			distance[row][col] = -1
 		}
 	}
@@ -118,8 +125,7 @@ func main() {
 			grid[row][col] = b
 			if b == 'S' {
 				start = location{x: col, y: row}
-				grid[row][col] = 'J' // hacky solution
-				fmt.Println(start)
+				grid[row][col] = '|' // TODO: fix this hacky solution
 			}
 		}
 		row++
@@ -138,22 +144,22 @@ func main() {
 		}
 	}
 
-	fmt.Printf("max: %v\n", max) // 7030
+	fmt.Printf("Part 1: %v\n", max) // 7030, <13639
 
 	// Part 2
 
-	for row := 0; row < 279; row++ {
-		for col := 0; col < 279; col++ {
+	for row := 0; row < n_rows*2+1; row++ {
+		for col := 0; col < n_cols*2+1; col++ {
 			big_grid[row][col] = '.'
 		}
 	}
 
-	for row := 0; row < 140; row++ {
-		for col := 0; col < 140; col++ {
+	for row := 0; row < n_rows; row++ {
+		for col := 0; col < n_cols; col++ {
 			if distance[row][col] == -1 {
 				continue
 			}
-			l := location{x: 2 * col, y: 2 * row}
+			l := location{x: 2*col + 1, y: 2*row + 1}
 			setBigGrid(l, grid[row][col])
 
 			switch grid[row][col] {
@@ -183,13 +189,20 @@ func main() {
 
 	count := 0
 
-	for row := 0; row < 140; row++ {
-		for col := 0; col < 140; col++ {
-			if big_grid[2*row][2*col] == '.' {
+	for row := 0; row < n_big_rows; row++ {
+		for col := 0; col < n_big_cols; col++ {
+			fmt.Printf("%c", big_grid[row][col])
+		}
+		fmt.Printf("\n")
+	}
+
+	for row := 0; row < n_rows; row++ {
+		for col := 0; col < n_cols; col++ {
+			if big_grid[2*row+1][2*col+1] == '.' {
 				count++
 			}
 		}
 	}
 
-	fmt.Printf("count: %v\n", count) // 285
+	fmt.Printf("Part 2: %v\n", count) // 285
 }
