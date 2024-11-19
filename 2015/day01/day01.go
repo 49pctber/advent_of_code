@@ -10,7 +10,7 @@ import (
 func main() {
 	fmt.Println("Day 1")
 
-	input, err := os.Open(`input\input1.txt`)
+	input, err := os.Open(`input.txt`)
 
 	if err != nil {
 		log.Fatal(err)

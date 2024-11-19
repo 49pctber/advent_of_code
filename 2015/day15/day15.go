@@ -118,7 +118,7 @@ func SearchAllCookies(ingredients []ingredient_t) (cookie_t, cookie_t) {
 
 func main() {
 	fmt.Println("Day15")
-	best_cookie, best_cookie_500 := SearchAllCookies(ParseDay15Input(`input\input15.txt`))
+	best_cookie, best_cookie_500 := SearchAllCookies(ParseDay15Input(`input.txt`))
 	part1 := best_cookie.Score()
 	part2 := best_cookie_500.Score()
 	fmt.Printf("part1: %v\n", part1) // 18965440

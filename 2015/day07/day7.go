@@ -9,10 +9,6 @@ import (
 	"strconv"
 )
 
-// type Instruction interface {
-// 	Execute([]int) int
-// }
-
 type wire_t uint16
 
 var vars map[string]wire_t
@@ -81,7 +77,7 @@ func load() {
 	vars = make(map[string]wire_t)
 	instructions = make(map[string]string)
 
-	file, err := os.Open(`input\input7.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

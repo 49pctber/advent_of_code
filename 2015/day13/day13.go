@@ -26,7 +26,8 @@ const (
 
 var lut map[string]person_t
 
-const n_seats int = 8 // part 2
+const n_seats int = 8 // uncomment for part 1
+// const n_seats int = 9 // uncomment for part 2
 var happiness [n_seats][n_seats]int
 
 func init() {
@@ -39,7 +40,7 @@ func init() {
 	lut["Frank"] = Frank
 	lut["George"] = George
 	lut["Mallory"] = Mallory
-	// lut["Self"] = Self // part 2
+	// lut["Self"] = Self // uncomment for part 2
 }
 
 type arrangement_t struct {
@@ -87,7 +88,7 @@ func main() {
 	fmt.Println("Day 13")
 	re := regexp.MustCompile(`(\w+) would (gain|lose) (\d+) happiness units by sitting next to (\w+)\.`)
 
-	file, err := os.Open(`input\input13.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -108,6 +109,6 @@ func main() {
 
 	// calculate optimal seating arrangement by recursively searching orders
 	maximum := maximize(arrangement_t{})
-	fmt.Printf("maximum: %v\n", maximum) // 733
+	fmt.Printf("maximum: %v\n", maximum)
 
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	_ "embed"
 )
 
 func ValidPassword(s string) bool {
@@ -76,9 +78,12 @@ func FindNextPassword(s string) string {
 	return next
 }
 
+//go:embed input.txt
+var input1 string
+
 func main() {
-	new_password := FindNextPassword("vzbxkghb")
-	fmt.Printf("new_password: %v\n", new_password) // vzbxxyzz
-	next_password := FindNextPassword("vzbxxyzz")
+	new_password := FindNextPassword(input1)
+	fmt.Printf("new_password: %v\n", new_password)
+	next_password := FindNextPassword(new_password)
 	fmt.Printf("next_password: %v\n", next_password)
 }

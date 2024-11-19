@@ -85,7 +85,7 @@ func (sue sue_t) CheckSue2() bool {
 func main() {
 	re := regexp.MustCompile(`Sue (\d+): (\w+): (\d+), (\w+): (\d+), (\w+): (\d+)`)
 
-	file, err := os.Open(`input\input.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -19,7 +19,7 @@ func (l *location) String() string {
 func main() {
 	fmt.Println("Day 3")
 
-	file, err := os.Open(`input\input3.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -18,7 +18,7 @@ const (
 func main() {
 	fmt.Println("Day 6")
 
-	file, err := os.Open(`input\input6.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

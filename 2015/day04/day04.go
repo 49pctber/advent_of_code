@@ -5,15 +5,17 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	_ "crypto/MD5"
+	_ "crypto/md5"
+	_ "embed"
 )
+
+//go:embed input.txt
+var secret_key string
 
 func main() {
 	fmt.Println("Day 4")
 
 	hash := crypto.MD5.New()
-
-	secret_key := "ckczppom"
 
 	var hes string = "....."
 	var i int

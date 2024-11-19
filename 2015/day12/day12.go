@@ -67,7 +67,7 @@ func rSum(i interface{}) (int, error) {
 func main() {
 	fmt.Println("Day 12")
 
-	file, err := os.Open(`input\input12.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

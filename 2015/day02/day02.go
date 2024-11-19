@@ -39,7 +39,7 @@ func (b *box) RibbonNeeded() int {
 func main() {
 	fmt.Println("Day 2")
 
-	file, err := os.Open(`input\input2.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

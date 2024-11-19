@@ -30,13 +30,13 @@ func Recurse(containers []int, remaining int, idx int) int {
 func Start(containers []int, target int) int {
 	sort.Sort(sort.Reverse(sort.IntSlice(containers)))
 
-	fmt.Printf("containers: %v\n", containers)
+	// fmt.Printf("containers: %v\n", containers)
 
 	return Recurse(containers, target, 0)
 }
 
 func ParseInput(s string) []int {
-	file, err := os.Open(`input\input.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,7 +78,7 @@ func Recurse2(containers []int, remaining int, count int, idx int) {
 func Start2(containers []int, target int) int {
 	sort.Sort(sort.Reverse(sort.IntSlice(containers)))
 
-	fmt.Printf("containers: %v\n", containers)
+	// fmt.Printf("containers: %v\n", containers)
 
 	Recurse2(containers, target, 0, 0)
 
@@ -89,14 +89,14 @@ func Start2(containers []int, target int) int {
 
 	sort.Ints(keys)
 
-	return keys[0]
+	return results[keys[0]]
 }
 
 func main() {
-	containers := ParseInput(`input\input.txt`)
+	containers := ParseInput(`input.txt`)
 	target := 150
 	part1 := Start(containers, target)
-	fmt.Printf("part1: %v\n", part1) // 4372
+	fmt.Printf("part1: %v\n", part1)
 
 	part2 := Start2(containers, target)
 	fmt.Printf("part2: %v\n", part2)

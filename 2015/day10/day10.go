@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"strings"
 )
@@ -29,10 +30,11 @@ func LookAndSay(input string) (output string) {
 	return strings.Join(v, "")
 }
 
+//go:embed input.txt
+var input string
+
 func main() {
 	fmt.Println("Day10")
-
-	input := "1321131112"
 
 	for n := 0; n < 50; n++ {
 		input = LookAndSay(input)

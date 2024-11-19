@@ -78,7 +78,7 @@ func computeMaxPathLength(p path_t) int {
 
 func main() {
 	fmt.Println("Day 9")
-	file, err := os.Open(`input\input9.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}

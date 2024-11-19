@@ -7,7 +7,7 @@ import (
 	"os"
 	"regexp"
 
-	_ "crypto/MD5"
+	_ "crypto/md5"
 )
 
 func Nice(s string) bool {
@@ -72,7 +72,7 @@ func Nice2(s string) bool {
 func main() {
 	fmt.Println("Day 5")
 
-	file, err := os.Open(`input\input5.txt`)
+	file, err := os.Open(`input.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}
