@@ -14,10 +14,11 @@ type Node struct {
 	right string
 }
 
-func main() {
-	fmt.Println("Day 8")
+var Map map[string]Node
+var instructions string
 
-	var Map map[string]Node = make(map[string]Node)
+func init() {
+	Map = make(map[string]Node)
 
 	file, err := os.Open(filepath.Join("input", "input8.txt"))
 	if err != nil {
@@ -27,15 +28,12 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	scanner.Scan()
-	instructions := scanner.Text()
+	instructions = scanner.Text()
 	scanner.Scan()
-
-	fmt.Println(instructions)
-
-	re := regexp.MustCompile(`(\w{3}) = \((\w{3}), (\w{3})\)`)
 
 	// var locs []string
 
+	re := regexp.MustCompile(`(\w{3}) = \((\w{3}), (\w{3})\)`)
 	for scanner.Scan() {
 		r := re.FindStringSubmatch(scanner.Text())
 		Map[r[1]] = Node{left: r[2], right: r[3]}
@@ -44,7 +42,9 @@ func main() {
 		// 	locs = append(locs, r[1])
 		// }
 	}
+}
 
+func part1() {
 	count := 0
 
 	for loc := "AAA"; loc != "ZZZ"; count++ {
@@ -56,60 +56,41 @@ func main() {
 		}
 	}
 
-	fmt.Println("Steps:", count)
-
-	// count = 0
-	// for {
-	// 	done := true
-	// 	dir := instructions[count%len(instructions)]
-	// 	for i := 0; i < len(locs); i++ {
-	// 		if locs[i][2] != 'Z' {
-	// 			done = false
-	// 		} else {
-	// 			fmt.Println(count, i, locs[i])
-	// 		}
-	// 		if dir == 'L' {
-	// 			locs[i] = Map[locs[i]].left
-	// 		} else {
-	// 			locs[i] = Map[locs[i]].right
-	// 		}
-	// 	}
-
-	// 	count++
-
-	// 	if done {
-	// 		break
-	// 	}
-	// }
-
-	// fmt.Println("Steps:", count)
-
-	fmt.Println(Factor(11309))
-	fmt.Println(Factor(13939))
-	fmt.Println(Factor(15517))
-	fmt.Println(Factor(17621))
-	fmt.Println(Factor(19199))
-	fmt.Println(Factor(20777))
-
+	fmt.Println("Part 1:", count)
 }
 
-var Primes []int
+func part2() {
+	locs := make([]string, 0)
 
-func init() {
-	Primes = []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199}
-}
-
-func Factor(i int) []int {
-
-	if i == 1 {
-		return nil
-	}
-
-	for _, p := range Primes {
-		if i%p == 0 {
-			return append(Factor(i/p), p)
+	for loc := range Map {
+		if loc[2] == 'A' {
+			locs = append(locs, loc)
 		}
 	}
 
-	return []int{i}
+	for i, loc := range locs {
+		step := 0
+		for {
+			dir := instructions[step%len(instructions)]
+			if dir == 'L' {
+				loc = Map[loc].left
+			} else {
+				loc = Map[loc].right
+			}
+			step++
+
+			if loc[2] == 'Z' {
+				fmt.Printf("%d: %d\n", i, step)
+				break
+			}
+		}
+	}
+
+	fmt.Println("Part 2: By happy coincidence, the answer to this is the least common multiple of the numbers printed above.")
+}
+
+func main() {
+	fmt.Println("Day 8")
+	part1()
+	part2()
 }

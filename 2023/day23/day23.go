@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"slices"
 	"strings"
 )
@@ -427,11 +426,11 @@ func (maze maze_t) longestHike() int {
 }
 
 func main() {
-	maze := parseInput(filepath.Join("input", "input23.txt"), false)
+	maze := parseInput("input23.txt", false)
 	part1 := maze.longestHike()
-	fmt.Printf("part1: %v\n", part1) // 2010
+	fmt.Printf("part1: %v\n", part1)
 
-	maze = parseInput(filepath.Join("input", "input23.txt"), true)
+	maze = parseInput("input23.txt", true)
 	part2 := maze.longestHike()
-	fmt.Printf("part2: %v\n", part2) // 6318
+	fmt.Printf("part2: %v\n", part2)
 }
