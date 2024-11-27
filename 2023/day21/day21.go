@@ -1,6 +1,3 @@
-/*
-This code is not in a functional state.
-*/
 package main
 
 import (
@@ -215,120 +212,36 @@ func ParseDay21Input(s string, n int) search_t {
 	return search
 }
 
-func getDistanceGrid(s string, row, col, n int) [][]plot_t {
-	search := ParseDay21Input(s, n) // TODO maybe n+1?
-	search.row = row
-	search.col = col
-
-	queue := []*search_t{&search}
-	for len(queue) > 0 {
-		var s search_t
-		s, queue = *queue[0], queue[1:]
-		queue = append(queue, FillIn(&s)...)
-	}
-
-	// fmt.Println(search.CountReachable())
-	// search.PrintDist()
-
-	return search.grid
-}
-
 func CountGardenPlots2(s string, n int) int {
-	search := ParseDay21Input(s, n)
+	c_ef := CountGardenPlots(s, 132)
+	c_of := CountGardenPlots(s, 131)
+	c_ec := c_ef - CountGardenPlots(s, 64)
+	c_oc := c_of - CountGardenPlots(s, 65)
 
-	width := len(search.grid)
-	height := len(search.grid[0])
+	q := n / 131
+	r := n % 131
 
-	c0 := CountGardenPlots(s, n)
-	c1 := CountGardenPlots(s, n+1)
-	fmt.Println("c0 c1:", c0, c1)
-
-	q, r := n/width, n%width
-	if q != 202300 || r != 65 {
-		log.Fatalf("q,r are wrong (%d,%d)", q, r)
+	if q != 202300 {
+		panic("q should be 202300")
 	}
 
-	N := (q - 1) / 2
-	M := q / 2
-	enclosed := c0*(4*N*(N+1)+1) + c1*(4*M*M) // completely enclosed
-	if enclosed != 625621818307437 {
-		log.Fatalf("enclosed is incorrect (%d)", enclosed)
+	if q%2 != 0 {
+		panic("q must be even")
 	}
 
-	pn := getDistanceGrid(s, 0, (width-1)/2, 100000+q)
-	pe := getDistanceGrid(s, (height-1)/2, width-1, 100000+q)
-	ps := getDistanceGrid(s, height-1, (width-1)/2, 100000+q)
-	pw := getDistanceGrid(s, (height-1)/2, 0, 100000+q)
-
-	pnw := getDistanceGrid(s, 0, 0, 100000+q)
-	pne := getDistanceGrid(s, 0, width-1, 100000+q)
-	psw := getDistanceGrid(s, height-1, 0, 100000+q)
-	pse := getDistanceGrid(s, height-1, width-1, 100000+q)
-
-	pnwi := getDistanceGrid(s, 0, 0, 100000+q+1)
-	pnei := getDistanceGrid(s, 0, width-1, 100000+q+1)
-	pswi := getDistanceGrid(s, height-1, 0, 100000+q+1)
-	psei := getDistanceGrid(s, height-1, width-1, 100000+q+1)
-
-	edge_count := 0
-	for i := 0; i < height-1; i++ {
-		for j := 0; j < width-1; j++ {
-
-			if pn[i][j].reachable && pn[i][j].dist <= 130 {
-				edge_count += 1
-			}
-			if pe[i][j].reachable && pe[i][j].dist <= 130 {
-				edge_count += 1
-			}
-			if ps[i][j].reachable && ps[i][j].dist <= 130 {
-				edge_count += 1
-			}
-			if pw[i][j].reachable && pw[i][j].dist <= 130 {
-				edge_count += 1
-			}
-
-			if pse[i][j].reachable && pse[i][j].dist <= 130+65 {
-				edge_count += q - 1
-			}
-			if pne[i][j].reachable && pne[i][j].dist <= 130+65 {
-				edge_count += q - 1
-			}
-			if psw[i][j].reachable && psw[i][j].dist <= 130+65 {
-				edge_count += q - 1
-			}
-			if pnw[i][j].reachable && pnw[i][j].dist <= 130+65 {
-				edge_count += q - 1
-			}
-
-			if psei[i][j].reachable && psei[i][j].dist < 65 {
-				edge_count += q
-			}
-			if pnei[i][j].reachable && pnei[i][j].dist < 65 {
-				edge_count += q
-			}
-			if pswi[i][j].reachable && pswi[i][j].dist < 65 {
-				edge_count += q
-			}
-			if pnwi[i][j].reachable && pnwi[i][j].dist < 65 {
-				edge_count += q
-			}
-		}
+	if r != 65 {
+		panic("formula only valid when r = 65")
 	}
 
-	return enclosed + edge_count
+	return (q+1)*((q+1)*c_of-c_oc) + q*(q*c_ef+c_ec)
 }
 
 func main() {
-	part1 := CountGardenPlots(`input\input21.txt`, 64)
-	fmt.Printf("part1: %v\n", part1) // 3773
+	fmt.Println("Day 21")
 
-	part2 := CountGardenPlots2(`input\input21.txt`, 26501365)
-	fmt.Printf("part2: %v\n", part2) // 625628021226274
+	part1 := CountGardenPlots(`input21.txt`, 64)
+	fmt.Printf("part1: %v\n", part1)
 
-	if part2 != 625628021226274 {
-		diff := 625628021226274 - part2
-		q := diff / 131
-		r := diff % 131
-		log.Fatalf("part2 should be 625628021226274 (diff: %d) [%d, %d]", diff, q, r)
-	}
+	part2 := CountGardenPlots2(`input21.txt`, 26501365)
+	fmt.Printf("part2: %v\n", part2)
 }
