@@ -13,8 +13,6 @@ class Solution {
         part1();
         part2();
     }
-
     void part1();
-
     void part2();
 };
