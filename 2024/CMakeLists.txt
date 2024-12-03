@@ -12,3 +12,4 @@ include_directories(include)
 
 add_executable(day1 src/main.cpp src/day1.cpp)
 add_executable(day2 src/main.cpp src/day2.cpp)
+add_executable(day3 src/main.cpp src/day3.cpp)

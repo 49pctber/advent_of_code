@@ -6,24 +6,8 @@ std::filesystem::path input_directory =
 
 int main(int argc, char **argv) {
 
-    Solution sol;
-    switch (argc) {
-    case 1:
-        sol.run();
-        break;
-    case 2:
-        int part = std::atoi(argv[1]);
-        switch (part) {
-        case 1:
-            sol.part1();
-            break;
-        case 2:
-            sol.part2();
-            break;
-        default:
-            break;
-        }
-    }
+    Solution sol(argc, argv);
+    sol.run();
 
     return 0;
 }
