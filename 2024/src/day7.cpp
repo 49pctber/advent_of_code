@@ -1,9 +1,60 @@
+/*
+I updated this file with a more optimized approach.
+
+search() and search2() were my original solutions. Both parts take about 0.16
+seconds on my computer. They are standard recursive backtracking algorithms.
+
+new_search() and new_search2() take a different approach. Instead of starting at
+zero and finding the target, they instead work backwards. They start at the
+target and see if multiplication and concatenation are even possible operations.
+This leads to far more efficient pruning.
+*/
 #include "solution.hpp"
 #include <cmath>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
+bool new_search(std::vector<long int> *terms, int depth, long int value) {
+    if (depth == 0) {
+        return value == 0;
+    }
+
+    depth--;
+    if (value % (*terms)[depth] == 0) {
+        if (new_search(terms, depth, value / (*terms)[depth])) {
+            return true;
+        }
+    }
+    return new_search(terms, depth, value - (*terms)[depth]);
+}
+
+bool new_search2(std::vector<long int> *terms, int depth, long int value) {
+    if (depth == 0) {
+        return value == 0;
+    }
+    if (value < 0) {
+        return false;
+    }
+
+    depth--;
+
+    int b = std::pow(10, std::ceil(std::log10((*terms)[depth] + 1)));
+    if (value % b == (*terms)[depth]) {
+        if (new_search2(terms, depth, value / b)) {
+            return true;
+        }
+    }
+
+    if (value % (*terms)[depth] == 0) {
+        if (new_search2(terms, depth, value / (*terms)[depth])) {
+            return true;
+        }
+    }
+
+    return new_search2(terms, depth, value - (*terms)[depth]);
+}
 
 bool search(std::vector<long int> *terms, long int target, int depth,
             long int value) {
@@ -61,8 +112,7 @@ void Solution::part1() {
             terms.push_back(x);
         }
 
-        // check vector
-        if (search(&terms, target, 0, terms[0])) {
+        if (new_search(&terms, terms.size(), target)) {
             sum += target;
         }
     }
@@ -89,8 +139,7 @@ void Solution::part2() {
             terms.push_back(x);
         }
 
-        // check vector
-        if (search2(&terms, target, 0, terms[0])) {
+        if (new_search2(&terms, terms.size(), target)) {
             sum += target;
         }
     }
