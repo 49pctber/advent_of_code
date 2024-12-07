@@ -1,4 +1,5 @@
 #include "solution.hpp"
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -29,10 +30,15 @@ bool search2(std::vector<long int> *terms, long int target, int depth,
     } else if (value > target) {
         return false;
     }
-    long int concat =
-        std::stol(std::to_string(value) + std::to_string((*terms)[depth]));
-    return search2(terms, target, depth, value + (*terms)[depth]) ||
-           search2(terms, target, depth, value * (*terms)[depth]) ||
+
+    // commented code takes about 10x longer than uncommented code
+    // long int concat =
+    //     std::stol(std::to_string(value) + std::to_string((*terms)[depth]));
+    int b = (*terms)[depth];
+    long int concat = value * std::pow(10, std::ceil(std::log10(b + 1))) + b;
+
+    return search2(terms, target, depth, value + b) ||
+           search2(terms, target, depth, value * b) ||
            search2(terms, target, depth, concat);
 }
 
