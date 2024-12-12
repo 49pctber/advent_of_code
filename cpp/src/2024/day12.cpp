@@ -36,7 +36,9 @@ typedef struct {
     int perimeter;
     int area;
 
-    int n_sides() {
+    int n_sides() { return n_corners(); }
+
+    int n_corners() {
         int n = 0;
 
         std::set<std::pair<int, int>> locs;
@@ -50,33 +52,25 @@ typedef struct {
             if (!locs.contains(
                     std::pair<int, int>(loc.first + 1, loc.second)) &&
                 !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second + 1)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second + 1))) {
+                    std::pair<int, int>(loc.first, loc.second + 1))) {
                 n++;
             }
             if (!locs.contains(
                     std::pair<int, int>(loc.first - 1, loc.second)) &&
                 !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second + 1)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second + 1))) {
+                    std::pair<int, int>(loc.first, loc.second + 1))) {
                 n++;
             }
             if (!locs.contains(
                     std::pair<int, int>(loc.first + 1, loc.second)) &&
                 !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second - 1)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second - 1))) {
+                    std::pair<int, int>(loc.first, loc.second - 1))) {
                 n++;
             }
             if (!locs.contains(
                     std::pair<int, int>(loc.first - 1, loc.second)) &&
                 !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second - 1)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second - 1))) {
+                    std::pair<int, int>(loc.first, loc.second - 1))) {
                 n++;
             }
 
@@ -102,41 +96,6 @@ typedef struct {
             if (locs.contains(std::pair<int, int>(loc.first - 1, loc.second)) &&
                 locs.contains(std::pair<int, int>(loc.first, loc.second - 1)) &&
                 !locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second - 1))) {
-                n++;
-            }
-
-            // X0 corner
-            // 0X
-            if (!locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second + 1)) &&
-                locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second + 1))) {
-                n++;
-            }
-            if (!locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second + 1)) &&
-                locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second + 1))) {
-                n++;
-            }
-            if (!locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second - 1)) &&
-                locs.contains(
-                    std::pair<int, int>(loc.first + 1, loc.second - 1))) {
-                n++;
-            }
-            if (!locs.contains(
-                    std::pair<int, int>(loc.first - 1, loc.second)) &&
-                !locs.contains(
-                    std::pair<int, int>(loc.first, loc.second - 1)) &&
-                locs.contains(
                     std::pair<int, int>(loc.first - 1, loc.second - 1))) {
                 n++;
             }
