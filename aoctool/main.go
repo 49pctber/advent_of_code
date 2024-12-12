@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "tools/cmd"
+import "aoctool/cmd"
 
 func main() {
 	cmd.Execute()
