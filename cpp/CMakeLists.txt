@@ -21,3 +21,5 @@ add_executable(day8 src/main.cpp src/day8.cpp)
 add_executable(day9 src/main.cpp src/day9.cpp)
 add_executable(day10 src/main.cpp src/day10.cpp)
 add_executable(day11 src/main.cpp src/day11.cpp)
+
+add_executable(year2023day17 src/main.cpp src/2023/day17.cpp)

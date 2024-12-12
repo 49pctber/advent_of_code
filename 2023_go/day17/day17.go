@@ -151,56 +151,58 @@ func parseDay17Input(s string) [][]city_block_t {
 	return city_blocks
 }
 
-func dijkstraCityBlock(step step_t, city_blocks *[][]city_block_t) {
+// func dijkstraCityBlock(step step_t, city_blocks *[][]city_block_t) {
 
-	if step.Forward(city_blocks) != nil {
+// 	if step.Forward(city_blocks) != nil {
+// 		return
+// 	}
+
+// 	if v, exists := (*city_blocks)[step.y][step.x].min_heat_losses[step.dir][step.count]; exists {
+// 		if step.heat_loss >= v {
+// 			return
+// 		}
+// 	}
+
+// 	for sc := step.count; sc <= max_dir; sc++ {
+// 		if v, exists := (*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc]; exists {
+// 			(*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc] = min(v, step.heat_loss)
+// 		} else {
+// 			(*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc] = step.heat_loss
+// 		}
+// 	}
+
+// 	if step.heat_loss > best {
+// 		return
+// 	}
+
+// 	// check if we're at the end
+// 	if step.y == len(*city_blocks)-1 && step.x == len((*city_blocks)[0])-1 {
+// 		if (*city_blocks)[step.y][step.x].MinHeatLoss() < best {
+// 			best = step.heat_loss
+// 			if show_best {
+// 				fmt.Println(best)
+// 			}
+// 		}
+// 		return
+// 	}
+
+// 	// continue forward (if applicable)
+// 	if step.count < max_dir {
+// 		dijkstraCityBlock(step, city_blocks)
+// 	}
+
+// 	// turn (if applicable)
+// 	if step.count >= min_dir {
+// 		dijkstraCityBlock(step.FaceLeft(), city_blocks)
+// 		dijkstraCityBlock(step.FaceRight(), city_blocks)
+// 	}
+// }
+
+func dijkstraCityBlock(step step_t, city_block *[][]city_block_t) {
+	if step.Forward() != nil {
 		return
 	}
 
-	if v, exists := (*city_blocks)[step.y][step.x].min_heat_losses[step.dir][step.count]; exists {
-		if step.heat_loss >= v {
-			return
-		}
-	}
-
-	for sc := step.count; sc <= max_dir; sc++ {
-		if v, exists := (*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc]; exists {
-			(*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc] = min(v, step.heat_loss)
-		} else {
-			(*city_blocks)[step.y][step.x].min_heat_losses[step.dir][sc] = step.heat_loss
-		}
-	}
-
-	if step.heat_loss > best {
-		return
-	}
-
-	// check if we're at the end
-	if step.y == len(*city_blocks)-1 && step.x == len((*city_blocks)[0])-1 {
-		if (*city_blocks)[step.y][step.x].MinHeatLoss() < best {
-			best = step.heat_loss
-			if show_best {
-				fmt.Println(best)
-			}
-		}
-		return
-	}
-
-	// continue forward (if applicable)
-	if step.count < max_dir {
-		dijkstraCityBlock(step.Duplicate(), city_blocks)
-	}
-
-	// turn (if applicable)
-	if step.count >= min_dir {
-		steps := []step_t{step.FaceRight(), step.FaceLeft()}
-		// rand.Shuffle(len(steps), func(i, j int) { steps[i], steps[j] = steps[j], steps[i] }) // randomly turn left or right
-		for _, step := range steps {
-			if step.heat_loss < best {
-				dijkstraCityBlock(step, city_blocks)
-			}
-		}
-	}
 }
 
 func day17Search(min_dir0, max_dir0, threshold int, s string) int {
@@ -218,14 +220,13 @@ func main() {
 	fmt.Println("Day 17")
 
 	show_best = true
-
 	input := filepath.Join("input", "input17.txt")
 
+	best = math.MaxInt
 	part1 := day17Search(0, 3, math.MaxInt, input)
-	// part1 := day17Search(0, 3, 797, input)
 	fmt.Printf("part1: %v\n", part1)
 
-	part2 := day17Search(4, 10, math.MaxInt, input)
-	// part2 := day17Search(4, 10, 960, input)
-	fmt.Printf("part2: %v\n", part2)
+	best = math.MaxInt
+	// part2 := day17Search(4, 10, math.MaxInt, input)
+	// fmt.Printf("part2: %v\n", part2)
 }
