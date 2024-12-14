@@ -10,5 +10,6 @@ add_executable(2024_9 main.cpp 2024/day9.cpp)
 add_executable(2024_10 main.cpp 2024/day10.cpp)
 add_executable(2024_11 main.cpp 2024/day11.cpp)
 add_executable(2024_12 main.cpp 2024/day12.cpp)
+add_executable(2024_13 main.cpp 2024/day13.cpp)
 
 add_executable(2023_17 main.cpp 2023/day17.cpp)
