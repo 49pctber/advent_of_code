@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-std::filesystem::path input_path = input_directory.append("1.txt");
-
 void Solution::part1() {
     std::ifstream input(argv[1]);
     if (!input.is_open()) {

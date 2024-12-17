@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-std::filesystem::path input_path = input_directory.append("2.txt");
-
 bool safe_levels(std::vector<int> levels) {
 
     bool ascending = levels[1] > levels[0];
