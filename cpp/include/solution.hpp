@@ -24,7 +24,6 @@ class Solution {
         auto duration2 = stop2 - stop1;
 
         std::cout
-
             << "  Time: "
             << std::chrono::duration_cast<std::chrono::microseconds>(duration)
             << " [Part 1: "

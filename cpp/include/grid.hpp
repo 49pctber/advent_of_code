@@ -26,6 +26,14 @@ const int dir_down = 1;
 const int dir_left = 2;
 const int dir_up = 3;
 
+void move_up(position_t &p) { p.row--; }
+
+void move_right(position_t &p) { p.col++; }
+
+void move_down(position_t &p) { p.row++; }
+
+void move_left(position_t &p) { p.col--; }
+
 /*
 Represents orientation on a grid, including both position and direction
 */
