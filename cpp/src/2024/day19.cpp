@@ -55,9 +55,11 @@ long int count(std::set<std::string> &tokens, std::string s,
 
     // remove any prefixes and recursively count number of possibilities
     long int c = 0;
-    for (auto token : tokens) {
-        if (s.substr(0, token.size()) == token) {
-            c += count(tokens, s.substr(token.size(), s.size()), memos);
+    for (int i = 1; i <= s.size(); i++) {
+        std::string prefix = s.substr(0, i);
+        if (tokens.find(prefix) != tokens.end()) {
+            std::string remaining = s.substr(i, s.size() - i);
+            c += count(tokens, remaining, memos);
         }
     }
 
