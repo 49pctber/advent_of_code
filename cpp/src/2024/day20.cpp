@@ -76,7 +76,8 @@ void Solution::part1() {
     fill_direction(grid, start, 0);
 
     int count = 0;
-    std::map<int, int> cheat_counts;
+    const int min_cheat = 100;
+    // std::map<int, int> cheat_counts;
 
     for (auto row : grid) {
         for (auto cell : row) {
@@ -86,9 +87,10 @@ void Solution::part1() {
                                                 cell.neighbor_distances.end());
                     int min = *std::min_element(cell.neighbor_distances.begin(),
                                                 cell.neighbor_distances.end());
-                    int distance = max - min - 2;
-                    cheat_counts[distance]++;
-                    if (distance >= 100) {
+
+                    int cheat = max - min - 2;
+                    // cheat_counts[distance]++;
+                    if (cheat >= min_cheat) {
                         count++;
                     }
                 }
@@ -130,7 +132,6 @@ void Solution::part2() {
     fill_direction(grid, start, 0);
 
     long int count = 0;
-    std::map<int, int> cheat_counts;
 
     const int max_dur = 20;
     const int min_cheat = 100;
@@ -170,10 +171,6 @@ void Solution::part2() {
 
                     int cheat = std::abs(dist2 - dist1) - manhattan;
 
-                    if (cheat > 0) {
-                        cheat_counts[cheat]++;
-                    }
-
                     if (cheat >= min_cheat) {
                         count++;
                     }
@@ -181,10 +178,6 @@ void Solution::part2() {
             }
         }
     }
-
-    // for (auto x : cheat_counts) {
-    //     std::cout << x.first << ": " << x.second << '\n';
-    // }
 
     std::cout << "Part 2: " << count << std::endl;
 }
