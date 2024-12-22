@@ -20,6 +20,9 @@ layout_t dpad_layout{{'#', '^', 'A'}, {'<', 'v', '>'}};
 
 lookup_t numeric_lookup;
 lookup_t dpad_lookup;
+int stop_condition = 3;
+
+std::map<std::string, cost_t> cache;
 
 void initialize_lookups() {
     for (int row = 0; row < numeric_layout.size(); row++) {
@@ -39,8 +42,13 @@ void initialize_lookups() {
 
 cost_t compute_cost(std::string request, int depth) {
 
-    if (depth == 3) {
+    if (depth == stop_condition) {
         return request.size();
+    }
+
+    std::string key = request + '/' + std::to_string(depth);
+    if (cache.find(key) != cache.end()) {
+        return cache[key];
     }
 
     layout_t *layout;
@@ -138,13 +146,17 @@ cost_t compute_cost(std::string request, int depth) {
         curr_position = next_position;
     }
 
+    cache[key] = cost;
+
     return cost;
 }
 
 cost_t compute_complexity(std::string input) {
+    cache.clear();
     cost_t shortest_sequence_length = compute_cost(input, 0);
     int numeric_part = std::stoi(input.substr(0, input.size() - 1));
-    std::cout << shortest_sequence_length << '*' << numeric_part << std::endl;
+    // std::cout << shortest_sequence_length << '*' << numeric_part <<
+    // std::endl;
     return shortest_sequence_length * numeric_part;
 }
 
@@ -162,6 +174,7 @@ void Solution::part1() {
     }
 
     initialize_lookups();
+    stop_condition = 3;
 
     cost_t sum = 0;
     for (auto input : inputs) {
@@ -171,6 +184,24 @@ void Solution::part1() {
 }
 
 void Solution::part2() {
-    long int part2 = 0;
-    std::cout << "Part 2: " << part2 << std::endl;
+    std::ifstream file(argv[1]);
+    if (!file.is_open()) {
+        std::cerr << "error opening file\n";
+        exit(EXIT_FAILURE);
+    }
+
+    std::string line;
+    std::vector<std::string> inputs;
+    while (std::getline(file, line)) {
+        inputs.push_back(line);
+    }
+
+    // initialize_lookups();
+    stop_condition = 26;
+
+    cost_t sum = 0;
+    for (auto input : inputs) {
+        sum += compute_complexity(input);
+    }
+    std::cout << "Part 2: " << sum << std::endl;
 }
