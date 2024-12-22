@@ -51,9 +51,11 @@ void Solution::part2() {
     std::vector<int> price_changes(2000, 0);
 
     std::map<int, int> bananas;
+    std::map<int, int> new_bananas;
 
-    // compute first 2000 prices, price differences
     while (std::getline(file, line)) {
+        new_bananas.clear();
+
         int state = std::stoi(line);
         int prev_price = state % 10;
 
@@ -65,20 +67,18 @@ void Solution::part2() {
             prev_price = curr_price;
         }
 
-        std::map<int, int> new_bananas;
-
         for (int i = 1999; i >= 3; i--) {
             int a = price_changes[i - 3];
             int b = price_changes[i - 2];
             int c = price_changes[i - 1];
             int d = price_changes[i];
 
-            a = a > 0 ? a : (10 - a);
-            b = b > 0 ? b : (10 - b);
-            c = c > 0 ? c : (10 - c);
-            d = d > 0 ? d : 10 - d;
+            a = a >= 0 ? a : (10 - a);
+            b = b >= 0 ? b : (10 - b);
+            c = c >= 0 ? c : (10 - c);
+            d = d >= 0 ? d : 10 - d;
 
-            int key = (a << 15) + (b << 10) + (c << 5) + d;
+            int key = (a << 24) + (b << 16) + (c << 8) + d;
 
             new_bananas[key] = prices[i];
         }
@@ -89,8 +89,7 @@ void Solution::part2() {
     }
 
     // find sequence that results in best price
-    long int max_bananas = 0;
-    // std::string best_key;
+    long int max_bananas = INT64_MIN;
     for (auto [key, number] : bananas) {
         if (number > max_bananas) {
             max_bananas = number;
@@ -98,5 +97,4 @@ void Solution::part2() {
     }
 
     std::cout << "Part 2: " << max_bananas << std::endl;
-    // 1753 is too high
 }

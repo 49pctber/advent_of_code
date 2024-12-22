@@ -155,8 +155,6 @@ cost_t compute_complexity(std::string input) {
     cache.clear();
     cost_t shortest_sequence_length = compute_cost(input, 0);
     int numeric_part = std::stoi(input.substr(0, input.size() - 1));
-    // std::cout << shortest_sequence_length << '*' << numeric_part <<
-    // std::endl;
     return shortest_sequence_length * numeric_part;
 }
 
