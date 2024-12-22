@@ -17,6 +17,10 @@ bool operator<(const position_t &lhs, const position_t &rhs) {
     return lhs.row < rhs.row;
 }
 
+position_t offset(position_t &a, position_t &b) {
+    return position_t{row : b.row - a.row, col : b.col - a.col};
+}
+
 /*
 Represents two-dimensional directions
 */
