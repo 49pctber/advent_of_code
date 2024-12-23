@@ -52,7 +52,7 @@ void Solution::part2() {
             int pos2 = std::stoi(matches[2]) - 1;
             char c = std::string(matches[3])[0];
             std::string password = matches[4];
-            if (password[pos1] == c ^ password[pos2] == c) {
+            if ((password[pos1] == c) ^ (password[pos2] == c)) {
                 n_valid_passwords++;
             }
         } else {

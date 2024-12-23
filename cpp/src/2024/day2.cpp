@@ -10,13 +10,13 @@ bool safe_levels(std::vector<int> levels) {
     bool ascending = levels[1] > levels[0];
 
     if (ascending) {
-        for (int i = 0; i < levels.size() - 1; i++) {
+        for (size_t i = 0; i < levels.size() - 1; i++) {
             if (levels[i + 1] <= levels[i] || levels[i + 1] > levels[i] + 3) {
                 return false;
             }
         }
     } else {
-        for (int i = 0; i < levels.size() - 1; i++) {
+        for (size_t i = 0; i < levels.size() - 1; i++) {
             if (levels[i + 1] >= levels[i] || levels[i + 1] < levels[i] - 3) {
                 return false;
             }
@@ -72,7 +72,7 @@ void Solution::part2() {
             continue;
         }
 
-        for (int i = 0; i < levels.size(); i++) {
+        for (size_t i = 0; i < levels.size(); i++) {
             std::vector<int> levels2(levels);
             levels2.erase(levels2.begin() + i);
 

@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-bool check(std::vector<std::string> *grid, int row, int col, int dx, int dy) {
+bool check(std::vector<std::string> *grid, size_t row, size_t col, int dx,
+           int dy) {
     if (row + 3 * dy < 0 || row + 3 * dy >= grid->size()) {
         return false;
     }
@@ -18,7 +19,7 @@ bool check(std::vector<std::string> *grid, int row, int col, int dx, int dy) {
            (*grid)[row + 3 * dy][col + 3 * dx] == 'S';
 }
 
-bool check2(std::vector<std::string> *grid, int row, int col) {
+bool check2(std::vector<std::string> *grid, size_t row, size_t col) {
     if (row <= 0 || row >= grid->size() - 1) {
         return false;
     }
@@ -65,8 +66,8 @@ void Solution::part1() {
     }
 
     int count = 0;
-    for (int row = 0; row < grid.size(); row++) {
-        for (int col = 0; col < grid[row].size(); col++) {
+    for (size_t row = 0; row < grid.size(); row++) {
+        for (size_t col = 0; col < grid[row].size(); col++) {
             if (grid[row][col] != 'X') {
                 continue;
             }
@@ -116,8 +117,8 @@ void Solution::part2() {
     }
 
     int count = 0;
-    for (int row = 0; row < grid.size(); row++) {
-        for (int col = 0; col < grid[row].size(); col++) {
+    for (size_t row = 0; row < grid.size(); row++) {
+        for (size_t col = 0; col < grid[row].size(); col++) {
             if (check2(&grid, row, col)) {
                 count++;
             }

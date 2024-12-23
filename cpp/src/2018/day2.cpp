@@ -57,7 +57,7 @@ void Solution::part2() {
             // check if line only differs in one spot
             int idx = -1;
             bool found = false;
-            for (int i = 0; i < line.length(); i++) {
+            for (size_t i = 0; i < line.length(); i++) {
                 if (p[i] == line[i]) {
                     continue;
                 } else if (idx == -1) {

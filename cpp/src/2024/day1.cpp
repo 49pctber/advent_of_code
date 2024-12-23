@@ -32,7 +32,7 @@ void Solution::part1() {
     std::sort(list2.begin(), list2.end());
 
     int sum = 0;
-    for (int i = 0; i < list1.size(); i++) {
+    for (size_t i = 0; i < list1.size(); i++) {
         sum += std::abs(list1[i] - list2[i]);
     }
     std::cout << "Part 1: " << sum << std::endl;
