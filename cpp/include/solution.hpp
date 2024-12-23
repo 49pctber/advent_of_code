@@ -1,12 +1,7 @@
 #pragma once
 
 #include <chrono>
-#include <filesystem>
-#include <fstream>
 #include <iostream>
-
-extern std::filesystem::path this_file;
-extern std::filesystem::path input_directory;
 
 class Solution {
   public:
