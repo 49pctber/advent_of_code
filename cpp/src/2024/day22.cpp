@@ -49,13 +49,12 @@ void Solution::part2() {
     std::string line;
     std::vector<int> prices(2000, 0);
     std::vector<int> price_changes(2000, 0);
+    std::vector<int> updated_keys(2000, 0); // for optimization
 
-    std::map<int, int> bananas;
-    std::map<int, int> new_bananas;
+    std::vector<int> bananas(19 * 19 * 19 * 19, 0);
+    std::vector<int> new_bananas(19 * 19 * 19 * 19);
 
     while (std::getline(file, line)) {
-        new_bananas.clear();
-
         int state = std::stoi(line);
         int prev_price = state % 10;
 
@@ -73,24 +72,27 @@ void Solution::part2() {
             int c = price_changes[i - 1];
             int d = price_changes[i];
 
-            a = a >= 0 ? a : (10 - a);
-            b = b >= 0 ? b : (10 - b);
-            c = c >= 0 ? c : (10 - c);
-            d = d >= 0 ? d : 10 - d;
+            a = a >= 0 ? a : (9 - a);
+            b = b >= 0 ? b : (9 - b);
+            c = c >= 0 ? c : (9 - c);
+            d = d >= 0 ? d : 9 - d;
 
-            int key = (a << 24) + (b << 16) + (c << 8) + d;
+            int key = ((a * 19 + b) * 19 + c) * 19 + d;
 
+            updated_keys[i] = key;
             new_bananas[key] = prices[i];
         }
 
-        for (auto [key, value] : new_bananas) {
-            bananas[key] += value;
+        for (size_t i = 3; i < updated_keys.size(); i++) {
+            int key = updated_keys[i];
+            bananas[key] += new_bananas[key];
+            new_bananas[key] = 0;
         }
     }
 
     // find sequence that results in best price
     long int max_bananas = INT64_MIN;
-    for (auto [key, number] : bananas) {
+    for (auto number : bananas) {
         if (number > max_bananas) {
             max_bananas = number;
         }
