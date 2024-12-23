@@ -25,3 +25,14 @@ add_executable(2024_24 main.cpp 2024/day24.cpp)
 add_executable(2024_25 main.cpp 2024/day25.cpp)
 
 add_executable(2023_17 main.cpp 2023/day17.cpp)
+
+add_executable(2020_1 main.cpp 2020/day1.cpp)
+add_executable(2020_2 main.cpp 2020/day2.cpp)
+add_executable(2020_3 main.cpp 2020/day3.cpp)
+add_executable(2020_4 main.cpp 2020/day4.cpp)
+add_executable(2020_5 main.cpp 2020/day5.cpp)
+add_executable(2020_6 main.cpp 2020/day6.cpp)
+add_executable(2020_7 main.cpp 2020/day7.cpp)
+
+add_executable(2018_1 main.cpp 2018/day1.cpp)
+add_executable(2018_2 main.cpp 2018/day2.cpp)

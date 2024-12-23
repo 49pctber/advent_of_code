@@ -4,8 +4,6 @@
 #include <regex>
 #include <set>
 
-std::filesystem::path input_path = input_directory.append("7.txt");
-
 typedef std::string bag_t;
 
 class Rules {
@@ -96,11 +94,11 @@ class Rules {
 };
 
 void Solution::part1() {
-    Rules rules(input_path);
+    Rules rules(argv[1]);
     std::cout << "Part 1: " << rules.countBagsWithShinyGold() << std::endl;
 }
 
 void Solution::part2() {
-    Rules rules(input_path);
+    Rules rules(argv[1]);
     std::cout << "Part 2: " << rules.countBagsInside("shiny gold") << std::endl;
 }

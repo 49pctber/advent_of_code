@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <vector>
 
-std::filesystem::path input_path = input_directory.append("5.txt");
-
 class Seat {
   public:
     void parseString(std::string input) {
@@ -37,7 +35,7 @@ class Seat {
 };
 
 void Solution::part1() {
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     std::string line;
     int max = INT32_MIN;
 
@@ -54,7 +52,7 @@ void Solution::part1() {
 }
 
 void Solution::part2() {
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     std::string line;
     std::vector<int> seat_ids;
 

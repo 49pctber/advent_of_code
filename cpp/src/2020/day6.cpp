@@ -2,10 +2,8 @@
 #include <map>
 #include <set>
 
-std::filesystem::path input_path = input_directory.append("6.txt");
-
 void Solution::part1() {
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     std::string line;
     std::set<char> yeses;
 
@@ -27,7 +25,7 @@ void Solution::part1() {
 }
 
 void Solution::part2() {
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     std::string line;
     std::map<char, int> yeses;
 
@@ -50,9 +48,9 @@ void Solution::part2() {
             }
         }
     }
-    std::cout << n_rows << '\n';
+    // std::cout << n_rows << '\n';
     for (auto const &[key, val] : yeses) {
-        std::cout << key << ' ' << val << '\n';
+        // std::cout << key << ' ' << val << '\n';
         if (val == n_rows) {
             sum++;
         }

@@ -6,11 +6,10 @@
 #include <vector>
 
 const int target = 2020;
-std::filesystem::path input_path = input_directory.append("1.txt");
 
 void Solution::part1() {
 
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     if (!input.is_open()) {
         std::cerr << "Failed to open input file" << std::endl;
     }
@@ -46,7 +45,7 @@ void Solution::part1() {
 }
 
 void Solution::part2() {
-    std::ifstream input(input_path);
+    std::ifstream input(argv[1]);
     if (!input.is_open()) {
         std::cerr << "Failed to open input file" << std::endl;
     }

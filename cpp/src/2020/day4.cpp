@@ -3,8 +3,6 @@
 
 #define INVALID_PASSPORT_FIELD (-1)
 
-std::filesystem::path input_path = input_directory.append("4.txt");
-
 class Passport {
   public:
     Passport()
@@ -141,7 +139,7 @@ class Passport {
 };
 
 void Solution::part1() {
-    std::ifstream file(input_path);
+    std::ifstream file(argv[1]);
     std::string line;
     std::unique_ptr<Passport> passport = std::make_unique<Passport>();
     int n_valid = 0;
@@ -165,7 +163,7 @@ void Solution::part1() {
 }
 
 void Solution::part2() {
-    std::ifstream file(input_path);
+    std::ifstream file(argv[1]);
     std::string line;
     std::unique_ptr<Passport> passport = std::make_unique<Passport>();
     int n_valid = 0;

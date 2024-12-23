@@ -1,10 +1,8 @@
 #include "solution.hpp"
 
-std::filesystem::path input_path = input_directory.append("3.txt");
+int trees(char **argv, int dx) {
 
-int trees(int dx) {
-
-    std::ifstream file(input_path);
+    std::ifstream file(argv[1]);
     if (!file.is_open()) {
         std::cerr << "Failed to open input file" << std::endl;
     }
@@ -24,9 +22,9 @@ int trees(int dx) {
     return n_trees_hit;
 }
 
-int trees(int dx, int dy) {
+int trees(char **argv, int dx, int dy) {
 
-    std::ifstream file(input_path);
+    std::ifstream file(argv[1]);
     if (!file.is_open()) {
         std::cerr << "Failed to open input file" << std::endl;
     }
@@ -50,14 +48,16 @@ int trees(int dx, int dy) {
     return n_trees_hit;
 }
 
-void Solution::part1() { std::cout << "Part 1: " << trees(3) << std::endl; }
+void Solution::part1() {
+    std::cout << "Part 1: " << trees(argv, 3) << std::endl;
+}
 
 void Solution::part2() {
     long int product = 1;
-    product *= trees(1);
-    product *= trees(3);
-    product *= trees(5);
-    product *= trees(7);
-    product *= trees(1, 2);
+    product *= trees(argv, 1);
+    product *= trees(argv, 3);
+    product *= trees(argv, 5);
+    product *= trees(argv, 7);
+    product *= trees(argv, 1, 2);
     std::cout << "Part 2: " << product << std::endl;
 }
