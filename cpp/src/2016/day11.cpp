@@ -1,8 +1,9 @@
 #include "solution.hpp"
 #include <fstream>
 #include <iostream>
-#include <map>
+#include <queue>
 #include <regex>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -13,8 +14,10 @@ const int ruthenium = 1; // ruthenium (Ru 44)
 const int thulium = 2;   // thulium (Tm 69)
 const int plutonium = 3; // plutonium (Pu 94)
 const int curium = 4;    // curium (Cm 96)
+const int elerium = 5;
+const int dilithium = 6;
 
-const int max_elements = 5;
+const int max_elements = 7;
 const int element_mask = (0b1 << max_elements) - 1;
 const int n_floors = 4;
 
@@ -31,18 +34,8 @@ bool valid_floor_state(int state) {
         return true;
     }
 
-    // int powered_microchips = microchips & generators;
     int unpowered_microchips = microchips & ~generators;
 
-    // std::cout << std::hex;
-    // if (generators != 0 && unpowered_microchips != 0) {
-    //     std::cout << state << " is not a valid floor state.\n";
-    // } else {
-    //     std::cout << state << " is a valid floor state.\n";
-    // }
-    // std::cout << std::dec;
-
-    // check if there are any generators and unpowered microchips
     return !(generators != 0 && unpowered_microchips != 0);
 }
 
@@ -111,7 +104,7 @@ search_state_t move_down(search_state_t state, int flip) {
 long int hash(search_state_t &state) {
     long int digest = 0; // non cryptographic, obviously
     for (int i = 0; i < n_floors; i++) {
-        digest <<= 10;
+        digest <<= 2 * max_elements;
         digest ^= state.floors[i];
     }
     digest <<= 2;
@@ -137,6 +130,10 @@ int element_to_index(std::string element) {
         return hydrogen;
     } else if (element == "lithium") {
         return lithium;
+    } else if (element == "dilithium") {
+        return dilithium;
+    } else if (element == "elerium") {
+        return elerium;
     } else {
         exit(EXIT_FAILURE);
     }
@@ -144,86 +141,6 @@ int element_to_index(std::string element) {
 
 int element_to_bitmask(std::string element) {
     return 1 << element_to_index(element);
-}
-
-int search(search_state_t state, std::map<long int, int> &seen_states,
-           int &end_state, int &best_known) {
-
-    if (state.floors[n_floors - 1] == end_state) {
-        return state.n_steps;
-    }
-
-    if (state.n_steps >= best_known) {
-        return best_known;
-    }
-
-    // something like this might introduce subtle bugs
-    long int state_hash = hash(state);
-    if (seen_states.find(state_hash) != seen_states.end()) {
-        if (state.n_steps < seen_states[state_hash]) {
-            seen_states[state_hash] = state.n_steps;
-        } else {
-            return best_known;
-        }
-    } else {
-        seen_states[state_hash] = state.n_steps;
-    }
-
-    // find elements you can move from the current floor
-    std::vector<int> options;
-    for (int i = 0; i < 2 * max_elements; i++) {
-        if ((state.floors[state.elevator_floor] >> i) & 0b1) {
-            options.push_back(i);
-        }
-    }
-
-    // print(state);
-    // std::cout << "options: ";
-    // for (auto i : options) {
-    //     std::cout << i << ' ';
-    // }
-    // std::cout << '\n';
-
-    // try moving every combination of generator and chip on floor
-    for (size_t i = 0; i < options.size(); i++) {
-
-        for (size_t j = i; j < options.size(); j++) {
-
-            int flip = (1 << options[i]) | (1 << options[j]);
-
-            if (can_move_up(state, flip)) {
-                auto next = move_up(state, flip);
-
-                // print(state);
-                // std::cout << "-(up)->\n";
-                // print(next);
-                // std::cout << '\n';
-
-                int steps = search(next, seen_states, end_state, best_known);
-                if (steps < best_known) {
-                    best_known = steps;
-                    std::cout << best_known << std::endl;
-                }
-            }
-
-            if (can_move_down(state, flip)) {
-                auto next = move_down(state, flip);
-
-                // print(state);
-                // std::cout << "-(down)->\n";
-                // print(next);
-                // std::cout << '\n';
-
-                int steps = search(next, seen_states, end_state, best_known);
-                if (steps < best_known) {
-                    best_known = steps;
-                    // std::cout << best_known << std::endl;
-                }
-            }
-        }
-    }
-
-    return best_known;
 }
 
 void Solution::part1() {
@@ -247,26 +164,156 @@ void Solution::part1() {
         for (std::sregex_iterator it(line.begin(), line.end(), pattern), end;
              it != end; ++it) {
             if ((*it)[1].length() > 0) {
-                // std::cout << floor << ": " << (*it)[1] << " generator";
                 start.floors[floor] |= element_to_bitmask((*it)[1])
                                        << max_elements;
                 end_state |= element_to_bitmask((*it)[1]) << max_elements;
             } else {
-                // std::cout << floor << ": " << (*it)[2] << " microchip";
                 start.floors[floor] |= element_to_bitmask((*it)[2]);
                 end_state |= element_to_bitmask((*it)[2]);
             }
-            // std::cout << '\n';
         }
 
         floor++;
     }
 
-    int best_known = 100;
-    std::map<long int, int>
+    std::queue<search_state_t> search_queue;
+    search_queue.push(start);
+    std::set<long int>
         seen_states; // maps states to shortest known path to get there
-    int min_steps = search(start, seen_states, end_state, best_known);
-    std::cout << "Part 1: " << min_steps << std::endl;
+
+    while (!search_queue.empty()) {
+        search_state_t state = search_queue.front();
+        search_queue.pop();
+
+        if (state.floors[n_floors - 1] == end_state) {
+            std::cout << "Part 1: " << state.n_steps << std::endl;
+            break;
+        }
+
+        // something like this might introduce subtle bugs
+        long int state_hash = hash(state);
+        if (seen_states.contains(state_hash)) {
+            continue;
+        } else {
+            seen_states.insert(state_hash);
+        }
+
+        // find elements you can move from the current floor
+        std::vector<int> options;
+        for (int i = 0; i < 2 * max_elements; i++) {
+            if ((state.floors[state.elevator_floor] >> i) & 0b1) {
+                options.push_back(i);
+            }
+        }
+
+        // try moving every combination of generator and chip on floor
+        for (size_t i = 0; i < options.size(); i++) {
+
+            for (size_t j = i; j < options.size(); j++) {
+
+                int flip = (1 << options[i]) | (1 << options[j]);
+
+                if (can_move_up(state, flip)) {
+                    auto next = move_up(state, flip);
+                    search_queue.push(next);
+                }
+
+                if (can_move_down(state, flip)) {
+                    auto next = move_down(state, flip);
+                    search_queue.push(next);
+                }
+            }
+        }
+    }
 }
 
-void Solution::part2() {}
+void Solution::part2() {
+    std::ifstream file(argv[1]);
+    if (!file.is_open()) {
+        std::cerr << "error opening file\n";
+        exit(EXIT_FAILURE);
+    }
+
+    std::string line;
+    int floor = 0;
+
+    search_state_t start;
+    start.elevator_floor = 0;
+    start.n_steps = 0;
+    start.floors.resize(n_floors, 0);
+
+    int end_state = 0;
+    std::regex pattern(R"(a (\w+) generator|a (\w+)-compatible microchip)");
+    while (std::getline(file, line)) {
+        for (std::sregex_iterator it(line.begin(), line.end(), pattern), end;
+             it != end; ++it) {
+            if ((*it)[1].length() > 0) {
+                start.floors[floor] |= element_to_bitmask((*it)[1])
+                                       << max_elements;
+                end_state |= element_to_bitmask((*it)[1]) << max_elements;
+            } else {
+                start.floors[floor] |= element_to_bitmask((*it)[2]);
+                end_state |= element_to_bitmask((*it)[2]);
+            }
+        }
+        floor++;
+    }
+
+    start.floors[0] |= element_to_bitmask("elerium") << max_elements;
+    end_state |= element_to_bitmask("elerium") << max_elements;
+    start.floors[0] |= element_to_bitmask("dilithium") << max_elements;
+    end_state |= element_to_bitmask("dilithium") << max_elements;
+    start.floors[0] |= element_to_bitmask("elerium");
+    end_state |= element_to_bitmask("elerium");
+    start.floors[0] |= element_to_bitmask("dilithium");
+    end_state |= element_to_bitmask("dilithium");
+
+    std::queue<search_state_t> search_queue;
+    search_queue.push(start);
+    std::set<long int>
+        seen_states; // maps states to shortest known path to get there
+
+    while (!search_queue.empty()) {
+        search_state_t state = search_queue.front();
+        search_queue.pop();
+
+        if (state.floors[n_floors - 1] == end_state) {
+            std::cout << "Part 2: " << state.n_steps << std::endl;
+            break;
+        }
+
+        long int state_hash = hash(state);
+        if (seen_states.contains(state_hash)) {
+            continue;
+        } else {
+            seen_states.insert(state_hash);
+        }
+
+        // find elements you can move from the current floor
+        std::vector<int> options;
+        for (int i = 0; i < 2 * max_elements; i++) {
+            if ((state.floors[state.elevator_floor] >> i) & 0b1) {
+                options.push_back(i);
+            }
+        }
+
+        // try moving every combination of generator and chip on floor
+        for (size_t i = 0; i < options.size(); i++) {
+
+            for (size_t j = i; j < options.size(); j++) {
+
+                int flip = (1 << options[i]) | (1 << options[j]);
+
+                if (can_move_up(state, flip)) {
+                    auto next = move_up(state, flip);
+                    search_queue.push(next);
+                }
+
+                if (can_move_down(state, flip)) {
+                    auto next = move_down(state, flip);
+                    search_queue.push(next);
+                }
+            }
+        }
+    }
+}
